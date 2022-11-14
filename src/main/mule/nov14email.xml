@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9c803fea-fa0c-4f88-8460-5f0b0cb0a769" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="8465ceaf-9d3a-4a2a-b469-21247e427344" >
+		<email:smtp-connection host="smtp.gmail.com" port="587" user="kvenkateshreddy064@gmail.com" password="xrwdfmmgndarqulh" >
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="652264e6-5ca6-4342-ace1-21c991cb8aff" >
+		<file:connection workingDir="C:\Users\venkatesh reddy\Pictures\Camera Roll" />
+	</file:config>
+	<flow name="nov14emailFlow" doc:id="212cf4bc-ff68-4e1c-8d78-6291f0a47a53" >
+		<http:listener doc:name="Listener" doc:id="5c71933d-e218-46a7-b7f3-b645f688b0cc" config-ref="HTTP_Listener_config" path="/emailflow"/>
+		<email:send doc:name="Send" doc:id="3ec01d52-2f3c-4f56-8568-ff8d7ab16879" config-ref="Email_SMTP" fromAddress="kvenkateshreddy064@gmail.com" subject="hai srilekha yela unnav deepalu pettava">
+			<email:to-addresses >
+				<email:to-address value="thotakura.srilekha1999@gmail.com" />
+				<email:to-address value="pvnyamrutha@gmail.com" />
+			</email:to-addresses>
+			<email:body >
+				<email:content ><![CDATA[amrutha ninna baga tittaru srilekha and jyothi bada pettaru]]></email:content>
+			</email:body>
+		</email:send>
+		<set-payload value="sucess" doc:name="Set Payload" doc:id="2b7042b0-0a6c-409d-95ff-7cb2fd1a125a" />
+		<logger level="INFO" doc:name="Logger" doc:id="101d54ab-121d-4bb1-98f3-5d3f44c57340" message="ok"/>
+	</flow>
+</mule>
